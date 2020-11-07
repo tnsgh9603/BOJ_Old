@@ -7,6 +7,7 @@ int main() {
 		cin >> b;
 		cin >> c;
 		cout << b + c << endl;
+		
 	}
 	return 0;
 }
