@@ -10,6 +10,6 @@ int main() {
 		arr[i] = arr[i - 1] + arr[i - 2];
 		arr[i] = arr[i] % 15746;
 	}
-	cout << arr[input];
+	cout << arr[input]; 
 	return 0;
 }
