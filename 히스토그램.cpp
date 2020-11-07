@@ -1,4 +1,4 @@
-// ¼¼±×¸ÕÆ® Æ®¸®
+// ì„¸ê·¸ë¨¼íŠ¸ íŠ¸ë¦¬
 #include <iostream>
 #include <algorithm>
 #include <vector>
@@ -7,19 +7,19 @@ int N;
 int p[100001];
 vector<int> range;
 int init(int left, int right, int node) {
-	if (left == right) { // °¡Àå ¾Æ·¡(¸®ÇÁ ³ëµå)±îÁö ³»·Á¿Ô´Ù´Â ¶æ
-		return range[node] = left; // ÀÎµ¦½º¸¦ ÀúÀå
+	if (left == right) { // ê°€ì¥ ì•„ë˜(ë¦¬í”„ ë…¸ë“œ)ê¹Œì§€ ë‚´ë ¤ì™”ë‹¤ëŠ” ëœ»
+		return range[node] = left; // ì¸ë±ìŠ¤ë¥¼ ì €ì¥
 	}
 
-	/* << ÇöÀç ³ëµåÀÇ ¹øÈ£°¡ node ÀÏ ¶§ >>
-	³ëµåÀÇ ¿ŞÂÊ ÀÚ½Ä ¹è¿­ ¹øÈ£ :: node * 2
-	³ëµåÀÇ ¿À¸¥ÂÊ ÀÚ½Ä ¹è¿­ ¹øÈ£ :: node * 2  + 1 */
+	/* << í˜„ì¬ ë…¸ë“œì˜ ë²ˆí˜¸ê°€ node ì¼ ë•Œ >>
+	ë…¸ë“œì˜ ì™¼ìª½ ìì‹ ë°°ì—´ ë²ˆí˜¸ :: node * 2
+	ë…¸ë“œì˜ ì˜¤ë¥¸ìª½ ìì‹ ë°°ì—´ ë²ˆí˜¸ :: node * 2  + 1 */
 	int mid = (left + right) / 2;
 	int lo = init(left, mid, node * 2);
 	int hi = init(mid + 1, right, node * 2 + 1);
 
 	if (p[lo] <= p[hi]) {
-		return range[node] = lo; // ±¸°£ ³»¿¡ ÃÖ¼Ò°ªÀ» °¡Áö´Â ÀÎµ¦½ºÀÇ À§Ä¡¸¦ ÀúÀå
+		return range[node] = lo; // êµ¬ê°„ ë‚´ì— ìµœì†Œê°’ì„ ê°€ì§€ëŠ” ì¸ë±ìŠ¤ì˜ ìœ„ì¹˜ë¥¼ ì €ì¥
 	}	
 	else {
 		return range[node] = hi;
@@ -28,14 +28,14 @@ int init(int left, int right, int node) {
 
 int query(int left, int right, int node, int nodeLeft, int nodeRight) {
 	if (left <= nodeLeft && nodeRight <= right) {
-		return range[node]; // ±¸ÇÏ´Â ¹üÀ§ ³»¿¡ ÀÖÀ» °æ¿ì ¹İÈ¯
+		return range[node]; // êµ¬í•˜ëŠ” ë²”ìœ„ ë‚´ì— ìˆì„ ê²½ìš° ë°˜í™˜
 	}
 	if (nodeRight < left || right < nodeLeft) {
-		return -1; // ¹üÀ§ ¹ş¾î³ª¸é -1
+		return -1; // ë²”ìœ„ ë²—ì–´ë‚˜ë©´ -1
 	}
 	int mid = (nodeLeft + nodeRight) / 2;
-	int lo = query(left, right, node * 2, nodeLeft, mid); // (nodeLeft, mid) »çÀÌÀÇ ÃÖ¼Ò°ª ÀÎµ¦½º
-	int hi = query(left, right, node * 2 + 1, mid + 1, nodeRight); // (mid+1, nodeRight) »çÀÌÀÇ ÃÖ¼Ò°ª ÀÎµ¦½º
+	int lo = query(left, right, node * 2, nodeLeft, mid); // (nodeLeft, mid) ì‚¬ì´ì˜ ìµœì†Œê°’ ì¸ë±ìŠ¤
+	int hi = query(left, right, node * 2 + 1, mid + 1, nodeRight); // (mid+1, nodeRight) ì‚¬ì´ì˜ ìµœì†Œê°’ ì¸ë±ìŠ¤
 
 	if (lo == -1) {
 		return hi;
@@ -44,7 +44,7 @@ int query(int left, int right, int node, int nodeLeft, int nodeRight) {
 		return lo;
 	}
 	if (p[lo] <= p[hi]) {
-		return lo; // ÃÖ¼Ò°ªÀ» °®´Â ÀÎµ¦½º À§Ä¡ ¹İÈ¯.
+		return lo; // ìµœì†Œê°’ì„ ê°–ëŠ” ì¸ë±ìŠ¤ ìœ„ì¹˜ ë°˜í™˜.
 	}
 	else {
 		return hi;
@@ -53,18 +53,18 @@ int query(int left, int right, int node, int nodeLeft, int nodeRight) {
 
 long long solve(int left, int right) {
 	if (left > right) {
-		return -1; // Á¾·áÁ¶°Ç
+		return -1; // ì¢…ë£Œì¡°ê±´
 	}
-	int loIdx = query(left, right, 1, 0, N - 1); // (left,right) ¹üÀ§ÀÇ ÃÖ¼Ò°ªÀ» °®´Â ÀÎµ¦½º ±¸ÇÏ±â
-	long long res = (long long)((long long)right - (long long)left + 1) * p[loIdx]; // (left, right) ¹üÀ§¸¦ ¸ğµÎ Æ÷ÇÔÇÏ°Ô ¸¸µé ¼ö ÀÖ´Â Á÷»ç°¢Çü ³ĞÀÌ
+	int loIdx = query(left, right, 1, 0, N - 1); // (left,right) ë²”ìœ„ì˜ ìµœì†Œê°’ì„ ê°–ëŠ” ì¸ë±ìŠ¤ êµ¬í•˜ê¸°
+	long long res = (long long)((long long)right - (long long)left + 1) * p[loIdx]; // (left, right) ë²”ìœ„ë¥¼ ëª¨ë‘ í¬í•¨í•˜ê²Œ ë§Œë“¤ ìˆ˜ ìˆëŠ” ì§ì‚¬ê°í˜• ë„“ì´
 
 	if (loIdx != left) {
-		res = max(res, solve(left, loIdx - 1)); // (left, loIdx-1) ±îÁö ¹üÀ§·Î ¸¸µé ¼ö ÀÖ´Â Á÷»ç°¢ÇüÀÇ ÃÖ´ë ³ĞÀÌ ÃÖ½ÅÈ­
+		res = max(res, solve(left, loIdx - 1)); // (left, loIdx-1) ê¹Œì§€ ë²”ìœ„ë¡œ ë§Œë“¤ ìˆ˜ ìˆëŠ” ì§ì‚¬ê°í˜•ì˜ ìµœëŒ€ ë„“ì´ ìµœì‹ í™”
 	}
 	if (loIdx != right) {
-		res = max(res, solve(loIdx + 1, right)); // (loIdx+1, right) ¹üÀ§
+		res = max(res, solve(loIdx + 1, right)); // (loIdx+1, right) ë²”ìœ„
 	}
-	return res; // ÃÖ´ë ³ĞÀÌ ¹İÈ¯
+	return res; // ìµœëŒ€ ë„“ì´ ë°˜í™˜
 }
 
 int main(){
@@ -74,41 +74,41 @@ int main(){
 		cin >> p[i];
 	}
 	
-	init(0, N - 1, 1); // ¼¼±×¸ÕÆ® Æ®¸® ÃÊ±âÈ­
+	init(0, N - 1, 1); // ì„¸ê·¸ë¨¼íŠ¸ íŠ¸ë¦¬ ì´ˆê¸°í™”
 
-	cout << solve(0, N - 1); // Á¤´ä Ãâ·Â
+	cout << solve(0, N - 1); // ì •ë‹µ ì¶œë ¥
 	return 0;
 }
-/* ½ºÅÃÀ» ÀÌ¿ë
+/* ìŠ¤íƒì„ ì´ìš©
 #include <iostream>
-#include <stack> // ½ºÅÃÀ» »ç¿ëÇÏ±â À§ÇØ
-#include <algorithm> // max ÇÔ¼ö »ç¿ëÀ» À§ÇØ
+#include <stack> // ìŠ¤íƒì„ ì‚¬ìš©í•˜ê¸° ìœ„í•´
+#include <algorithm> // max í•¨ìˆ˜ ì‚¬ìš©ì„ ìœ„í•´
 using namespace std;
 
 stack<int> q; 
 int arr[100001] = { 0, };
 int main() {
 	int N, ans = 0; 
-	cin >> N; // NÀº È÷½ºÅä±×·¥ÀÇ °¡·Î Ä­ÀÇ ¼ö
+	cin >> N; // Nì€ íˆìŠ¤í† ê·¸ë¨ì˜ ê°€ë¡œ ì¹¸ì˜ ìˆ˜
 
 	for (int i = 1; i <= N; i++) {
-		cin >> arr[i]; // N¸¸Å­ ÀÔ·Â¹Ş¾ÆÁÜ
+		cin >> arr[i]; // Në§Œí¼ ì…ë ¥ë°›ì•„ì¤Œ
 	}
 
-	q.push(0); // ½ÃÀÛ ºÎºĞÀ» °í·ÁÇØÁÖ±â À§ÇØ 0À» ³Ö¾îÁÜ
-	for (int i = 1; i <= N + 1; i++){ // Á¾·á ºÎºĞÀ» °í·ÁÇØÁÖ±â À§ÇØ N+1±îÁö ³Ö¾îÁÜ
-		while (arr[q.top()] > arr[i]){ // ³ôÀÌ°¡ ÀÛ°Å³ª °°Àº °ÍÀ» ¸¸³¯ ¶§±îÁö °è¼Ó push ÇØÁÖ°í, 
-			                           // ³ôÀÌ°¡ ÀÛ°Å³ª °°Àº °ÍÀ» ¸¸³ª¸é »ç°¢ÇüÀÇ ³ĞÀÌ¸¦ °è»êÇØÁÜ
-			int height = arr[q.top()]; // ¼¼·Î ±æÀÌ °è»ê
+	q.push(0); // ì‹œì‘ ë¶€ë¶„ì„ ê³ ë ¤í•´ì£¼ê¸° ìœ„í•´ 0ì„ ë„£ì–´ì¤Œ
+	for (int i = 1; i <= N + 1; i++){ // ì¢…ë£Œ ë¶€ë¶„ì„ ê³ ë ¤í•´ì£¼ê¸° ìœ„í•´ N+1ê¹Œì§€ ë„£ì–´ì¤Œ
+		while (arr[q.top()] > arr[i]){ // ë†’ì´ê°€ ì‘ê±°ë‚˜ ê°™ì€ ê²ƒì„ ë§Œë‚  ë•Œê¹Œì§€ ê³„ì† push í•´ì£¼ê³ , 
+			                           // ë†’ì´ê°€ ì‘ê±°ë‚˜ ê°™ì€ ê²ƒì„ ë§Œë‚˜ë©´ ì‚¬ê°í˜•ì˜ ë„“ì´ë¥¼ ê³„ì‚°í•´ì¤Œ
+			int height = arr[q.top()]; // ì„¸ë¡œ ê¸¸ì´ ê³„ì‚°
 			q.pop();
-			int width = i - q.top() - 1; // °¡·Î ±æÀÌ °è»ê
-			ans = max(ans, height * width); // »ç°¢ÇüÀÇ ³ĞÀÌ¸¦ °è»êÇØ¼­ ¿ø·¡ ÀÖ´Â °Íº¸´Ù ´õ Å©¸é °»½Å
+			int width = i - q.top() - 1; // ê°€ë¡œ ê¸¸ì´ ê³„ì‚°
+			ans = max(ans, height * width); // ì‚¬ê°í˜•ì˜ ë„“ì´ë¥¼ ê³„ì‚°í•´ì„œ ì›ë˜ ìˆëŠ” ê²ƒë³´ë‹¤ ë” í¬ë©´ ê°±ì‹ 
 		}
 		q.push(i);
 	}
 	cout << ans;
 	return 0;
-}*/
+}*//
 
 
 /* 
