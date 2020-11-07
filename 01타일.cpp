@@ -2,6 +2,7 @@
 using namespace std;
 int arr[1000001];
 int main() {
+	//
 	arr[1] = 1;
 	arr[2] = 2;
 	int input;
