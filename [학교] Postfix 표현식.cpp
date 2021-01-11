@@ -1,31 +1,24 @@
 #include <iostream>
 #include <string>
 #include <stack>
-#include <queue>
 using namespace std;
-stack <string> stack_;
-queue <char> q;
+stack <string> st;
 int main() {
-	string sentence;
+	string sentence, a, b, c;
 	cin >> sentence;
-	char a;
-	for (int i = 0; i < sentence.length(); i++) {
-		if (sentence[i] == '+') {
-			char a = q.front();
-			q.pop();
-			char b = q.front();
-			q.pop();
-			q.push("(");
-			stack_.push(b);
-			stack_.push("+");
-			stack_.push(a);
-		}
-		else if (sentence[i] == '-') {
-			sentence[i] == '-';
+	for (int i = 0; i < sentence.size(); i++) {
+		if (sentence[i] == '+' || sentence[i] == '-') {
+			a = st.top();
+			st.pop();
+			b = st.top();
+			st.pop();
+			c = "(" + b + sentence[i] + a + ")";
+			st.push(c);
 		}
 		else {
-			q.push(sentence[i]);
+			st.push(sentence.substr(i, 1));
 		}
 	}
+	cout << st.top();
 	return 0;
 }
